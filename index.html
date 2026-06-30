@@ -3,64 +3,85 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
-  <meta name="theme-color" content="#78b8df" />
+  <meta name="theme-color" content="#103d2b" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>Minnytime</title>
-  <link rel="stylesheet" href="style.css?v=1" />
+  <title>Minnytime Snooker</title>
+  <link rel="stylesheet" href="style.css?v=2" />
 </head>
 <body>
   <main id="gameShell">
-    <canvas id="game" aria-label="Minnytime voxel world"></canvas>
-
-    <header class="hud top-hud">
-      <div class="brand"><strong>MINNYTIME</strong><small>BLOCK WORLD</small></div>
-      <div class="readout"><span id="coords">X 0 Y 0 Z 0</span><span id="targetText">NO TARGET</span></div>
-      <button id="menuBtn" class="square-btn" aria-label="Open menu">☰</button>
+    <header class="topbar">
+      <div class="brand"><strong>MINNYTIME</strong><small>TABLETOP SNOOKER</small></div>
+      <div class="scoreboard">
+        <article id="playerOneCard" class="player-card active"><span id="playerOneName">PLAYER 1</span><strong id="playerOneScore">0</strong></article>
+        <div class="frame-info"><b id="turnLabel">PLAYER 1</b><small id="targetLabel">ON: RED</small></div>
+        <article id="playerTwoCard" class="player-card"><span id="playerTwoName">PLAYER 2</span><strong id="playerTwoScore">0</strong></article>
+      </div>
+      <button id="menuBtn" class="icon-btn" aria-label="Open menu">☰</button>
     </header>
 
-    <div class="crosshair" aria-hidden="true"><i></i><b></b></div>
-    <div id="toast" class="toast"></div>
+    <section class="table-wrap">
+      <canvas id="game" width="1000" height="560" aria-label="Two-player snooker table"></canvas>
+      <div id="message" class="message">Drag on the table to aim.</div>
+    </section>
+
+    <section class="controls">
+      <div class="power-panel">
+        <label for="powerSlider"><span>SHOT POWER</span><strong id="powerValue">45%</strong></label>
+        <input id="powerSlider" type="range" min="10" max="100" value="45" />
+      </div>
+      <button id="shootBtn" class="shoot-btn">TAKE SHOT</button>
+      <button id="fineLeftBtn" class="nudge-btn" aria-label="Aim left">◀</button>
+      <button id="fineRightBtn" class="nudge-btn" aria-label="Aim right">▶</button>
+    </section>
+
+    <footer class="footer-note"><span>Tap or drag the table to aim</span><span>Local two-player pass-and-play</span></footer>
 
     <section id="startPanel" class="overlay">
-      <div class="panel title-panel">
-        <div class="cube-logo"><i></i><b></b><span></span></div>
+      <div class="panel">
+        <div class="ball-logo"><i></i><b></b><span></span></div>
         <h1>MINNYTIME</h1>
-        <p>Explore, build and reshape your own tiny block world.</p>
-        <button id="startBtn" class="primary-btn">ENTER WORLD</button>
-        <small>Best played in landscape on phone</small>
+        <h2>TABLETOP SNOOKER</h2>
+        <p>A local two-player snooker frame with aiming, power control, fouls, scoring and proper colour order.</p>
+        <div class="name-grid">
+          <label>PLAYER 1<input id="playerOneInput" maxlength="12" value="PLAYER 1" /></label>
+          <label>PLAYER 2<input id="playerTwoInput" maxlength="12" value="PLAYER 2" /></label>
+        </div>
+        <button id="startBtn" class="primary-btn">START FRAME</button>
       </div>
     </section>
 
     <section id="menuPanel" class="overlay hidden">
       <div class="panel menu-panel">
-        <h2>PAUSED</h2>
+        <h2>FRAME PAUSED</h2>
         <button id="resumeBtn" class="primary-btn">RESUME</button>
-        <button id="saveBtn" class="menu-action">SAVE WORLD</button>
-        <button id="resetBtn" class="menu-action danger">NEW WORLD</button>
-        <div class="instructions">
-          <p><b>PHONE:</b> Left stick moves. Drag the world to look. Use Break, Place and Jump.</p>
-          <p><b>DESKTOP:</b> WASD, mouse, Space, left click to break, right click to place, 1–6 hotbar.</p>
-        </div>
+        <button id="restartBtn" class="secondary-btn">RESTART FRAME</button>
+        <button id="rulesBtn" class="secondary-btn">HOW TO PLAY</button>
       </div>
     </section>
 
-    <section class="mobile-controls">
-      <div id="movePad" class="move-pad"><div id="moveStick" class="move-stick"></div></div>
-      <div class="action-stack">
-        <button id="jumpBtn" class="action-btn jump">JUMP</button>
-        <div class="action-row">
-          <button id="breakBtn" class="action-btn break">BREAK</button>
-          <button id="placeBtn" class="action-btn place">PLACE</button>
-        </div>
+    <section id="rulesPanel" class="overlay hidden">
+      <div class="panel rules-panel">
+        <h2>HOW TO PLAY</h2>
+        <p>Pot a red for 1 point, then nominate and pot a colour. Colours return to their spots while reds remain.</p>
+        <p>After the final red, clear yellow, green, brown, blue, pink and black in order.</p>
+        <p>A legal pot keeps your turn. Missing or fouling passes play to the other player. Fouls award at least 4 points.</p>
+        <p>Tap or drag around the table to aim, set the power, then press <b>Take Shot</b>.</p>
+        <button id="rulesCloseBtn" class="primary-btn">BACK</button>
       </div>
     </section>
 
-    <nav id="hotbar" class="hotbar" aria-label="Block hotbar"></nav>
+    <section id="resultPanel" class="overlay hidden">
+      <div class="panel result-panel">
+        <h2 id="resultTitle">FRAME OVER</h2>
+        <p id="resultText"></p>
+        <button id="playAgainBtn" class="primary-btn">PLAY AGAIN</button>
+      </div>
+    </section>
   </main>
 
-  <script src="src/math.js?v=1"></script>
-  <script src="src/world.js?v=1"></script>
-  <script src="src/game.js?v=1"></script>
+  <script src="src/snooker-core.js?v=2"></script>
+  <script src="src/snooker-ui.js?v=2"></script>
 </body>
 </html>
