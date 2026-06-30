@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+  <meta name="theme-color" content="#78b8df" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Minnytime</title>
+  <link rel="stylesheet" href="style.css?v=1" />
+</head>
+<body>
+  <main id="gameShell">
+    <canvas id="game" aria-label="Minnytime voxel world"></canvas>
+
+    <header class="hud top-hud">
+      <div class="brand"><strong>MINNYTIME</strong><small>BLOCK WORLD</small></div>
+      <div class="readout"><span id="coords">X 0 Y 0 Z 0</span><span id="targetText">NO TARGET</span></div>
+      <button id="menuBtn" class="square-btn" aria-label="Open menu">☰</button>
+    </header>
+
+    <div class="crosshair" aria-hidden="true"><i></i><b></b></div>
+    <div id="toast" class="toast"></div>
+
+    <section id="startPanel" class="overlay">
+      <div class="panel title-panel">
+        <div class="cube-logo"><i></i><b></b><span></span></div>
+        <h1>MINNYTIME</h1>
+        <p>Explore, build and reshape your own tiny block world.</p>
+        <button id="startBtn" class="primary-btn">ENTER WORLD</button>
+        <small>Best played in landscape on phone</small>
+      </div>
+    </section>
+
+    <section id="menuPanel" class="overlay hidden">
+      <div class="panel menu-panel">
+        <h2>PAUSED</h2>
+        <button id="resumeBtn" class="primary-btn">RESUME</button>
+        <button id="saveBtn" class="menu-action">SAVE WORLD</button>
+        <button id="resetBtn" class="menu-action danger">NEW WORLD</button>
+        <div class="instructions">
+          <p><b>PHONE:</b> Left stick moves. Drag the world to look. Use Break, Place and Jump.</p>
+          <p><b>DESKTOP:</b> WASD, mouse, Space, left click to break, right click to place, 1–6 hotbar.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mobile-controls">
+      <div id="movePad" class="move-pad"><div id="moveStick" class="move-stick"></div></div>
+      <div class="action-stack">
+        <button id="jumpBtn" class="action-btn jump">JUMP</button>
+        <div class="action-row">
+          <button id="breakBtn" class="action-btn break">BREAK</button>
+          <button id="placeBtn" class="action-btn place">PLACE</button>
+        </div>
+      </div>
+    </section>
+
+    <nav id="hotbar" class="hotbar" aria-label="Block hotbar"></nav>
+  </main>
+
+  <script src="src/math.js?v=1"></script>
+  <script src="src/world.js?v=1"></script>
+  <script src="src/game.js?v=1"></script>
+</body>
+</html>
